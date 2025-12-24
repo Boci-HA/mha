@@ -8,11 +8,12 @@
   "boot": "auto",
   "arch": [
     "amd64",
+    "armhf",
     "armv7",
-    "arm64"
+    "aarch64"
   ],
   "ports": {
-    "8124/tcp": {
+    "8124": {
       "description": "Manus Addon API Server"
     }
   },
