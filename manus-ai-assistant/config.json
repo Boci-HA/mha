@@ -2,20 +2,17 @@
   "name": "Manus AI Assistant",
   "version": "1.0.0",
   "slug": "manus-ai-assistant",
-  "description": "AI-powered Home Assistant control using Manus - enables natural language control of your smart home with advanced AI capabilities",
+  "description": "AI-powered Home Assistant control using Manus - enables natural language control of your smart home",
   "url": "https://github.com/Boci-HA/mha",
   "startup": "application",
   "boot": "auto",
   "arch": [
     "amd64",
     "armhf",
-    "armv7",
     "aarch64"
   ],
   "ports": {
-    "8124": {
-      "description": "Manus Addon API Server"
-    }
+    "8124": 8124
   },
   "environment": {
     "LOG_LEVEL": "info"
