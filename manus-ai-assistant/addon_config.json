@@ -1,0 +1,93 @@
+{
+  "name": "Manus AI Assistant",
+  "version": "1.0.0",
+  "slug": "manus-ai-assistant",
+  "description": "AI-powered Home Assistant control using Manus - enables natural language control of your smart home with advanced AI capabilities",
+  "url": "https://www.manus.im",
+  "startup": "application",
+  "boot": "auto",
+  "arch": ["amd64", "armv7", "arm64"],
+  "ports": {
+    "8123/tcp": {
+      "description": "Manus Addon API Server"
+    }
+  },
+  "ports_description": {
+    "8123/tcp": "Manus Addon API Server"
+  },
+  "environment": {
+    "LOG_LEVEL": "info"
+  },
+  "schema": {
+    "manus_api_key": "str",
+    "home_assistant_token": "str",
+    "home_assistant_url": "str",
+    "enable_voice_control": "bool",
+    "enable_automations": "bool",
+    "enable_image_recognition": "bool",
+    "log_level": "list(debug|info|warning|error)"
+  },
+  "services": {
+    "manus_control": {
+      "description": "Send a natural language command to Manus to control your home",
+      "fields": {
+        "command": {
+          "description": "Natural language command (e.g., 'Turn on the living room lights')",
+          "example": "Turn on the living room lights"
+        }
+      }
+    },
+    "manus_analyze_image": {
+      "description": "Use Manus AI to analyze an image from a camera",
+      "fields": {
+        "entity_id": {
+          "description": "Camera entity to capture image from",
+          "example": "camera.living_room"
+        },
+        "prompt": {
+          "description": "What to analyze in the image",
+          "example": "Count the number of people in the room"
+        }
+      }
+    }
+  },
+  "options": {
+    "type": "object",
+    "properties": {
+      "manus_api_key": {
+        "type": "string",
+        "description": "Your Manus API key for authentication"
+      },
+      "home_assistant_token": {
+        "type": "string",
+        "description": "Home Assistant long-lived access token"
+      },
+      "home_assistant_url": {
+        "type": "string",
+        "description": "URL of your Home Assistant instance",
+        "default": "http://localhost:8123"
+      },
+      "enable_voice_control": {
+        "type": "boolean",
+        "description": "Enable voice control through Manus",
+        "default": true
+      },
+      "enable_automations": {
+        "type": "boolean",
+        "description": "Enable AI-powered automation suggestions",
+        "default": true
+      },
+      "enable_image_recognition": {
+        "type": "boolean",
+        "description": "Enable image recognition for cameras",
+        "default": true
+      },
+      "log_level": {
+        "type": "string",
+        "enum": ["debug", "info", "warning", "error"],
+        "default": "info"
+      }
+    },
+    "required": ["manus_api_key", "home_assistant_token"]
+  }
+}

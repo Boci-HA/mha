@@ -1,0 +1,209 @@
+# Example Home Assistant Automations using Manus AI Assistant Addon
+
+# Example 1: Voice-controlled lighting
+automation voice_lights:
+  alias: "Voice Control - Lights"
+  description: "Control lights using natural language commands via voice"
+  trigger:
+    platform: webhook
+    webhook_id: voice_command_lights
+  action:
+    service: manus_ai_assistant.manus_control
+    data:
+      command: "{{ command }}"
+
+# Example 2: Motion detection with image analysis
+automation motion_analysis:
+  alias: "Analyze Motion Detection"
+  description: "When motion is detected, analyze the camera feed"
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_detector
+    to: "on"
+  action:
+    service: manus_ai_assistant.manus_analyze_image
+    data:
+      entity_id: camera.living_room
+      prompt: "Is there a person in the room? Describe what you see."
+
+# Example 3: Evening mode automation
+automation evening_mode:
+  alias: "Evening Mode"
+  description: "Activate evening mode with a single command"
+  trigger:
+    platform: sun
+    event: sunset
+    offset: "-00:30:00"
+  action:
+    service: manus_ai_assistant.manus_control
+    data:
+      command: "Activate evening mode: dim all lights to 30%, close blinds, set thermostat to 68 degrees"
+
+# Example 4: Security automation with image recognition
+automation security_check:
+  alias: "Security Check"
+  description: "Periodically check security cameras for threats"
+  trigger:
+    platform: time_pattern
+    minutes: "/10"
+  action:
+    - service: manus_ai_assistant.manus_analyze_image
+      data:
+        entity_id: camera.front_door
+        prompt: "Is there anyone at the front door? If yes, describe them."
+    - service: manus_ai_assistant.manus_analyze_image
+      data:
+        entity_id: camera.backyard
+        prompt: "Is there any movement or unusual activity in the backyard?"
+
+# Example 5: Morning routine
+automation morning_routine:
+  alias: "Morning Routine"
+  description: "Start the day with a single command"
+  trigger:
+    platform: time
+    at: "07:00:00"
+  action:
+    service: manus_ai_assistant.manus_control
+    data:
+      command: "Good morning! Turn on all lights, open blinds, set thermostat to 72 degrees, and start the coffee maker"
+
+# Example 6: Bedtime routine
+automation bedtime_routine:
+  alias: "Bedtime Routine"
+  description: "Prepare home for sleep"
+  trigger:
+    platform: time
+    at: "22:00:00"
+  action:
+    service: manus_ai_assistant.manus_control
+    data:
+      command: "Bedtime mode: turn off all lights except bedroom, lock all doors, close blinds, set thermostat to 65 degrees, and arm security system"
+
+# Example 7: Movie time automation
+automation movie_time:
+  alias: "Movie Time"
+  description: "Set up home theater environment"
+  trigger:
+    platform: state
+    entity_id: input_boolean.movie_mode
+    to: "on"
+  action:
+    service: manus_ai_assistant.manus_control
+    data:
+      command: "Movie mode: turn off all lights, dim theater lights to 5%, close blinds, set temperature to 70 degrees, and turn on the projector"
+
+# Example 8: Parcel detection
+automation parcel_detection:
+  alias: "Parcel Detection"
+  description: "Detect packages at the door"
+  trigger:
+    platform: state
+    entity_id: binary_sensor.front_door_motion
+    to: "on"
+  action:
+    - service: manus_ai_assistant.manus_analyze_image
+      data:
+        entity_id: camera.front_door
+        prompt: "Is there a package or delivery at the door? Describe what you see."
+    - service: notify.mobile_app
+      data:
+        message: "Package detected at front door"
+        title: "Delivery Alert"
+
+# Example 9: Energy saving automation
+automation energy_saving:
+  alias: "Energy Saving Mode"
+  description: "Optimize energy usage when away"
+  trigger:
+    platform: state
+    entity_id: group.all_people
+    to: "not_home"
+  action:
+    service: manus_ai_assistant.manus_control
+    data:
+      command: "Energy saving mode: turn off all lights, set thermostat to 62 degrees, turn off all non-essential devices"
+
+# Example 10: Visitor announcement
+automation visitor_announcement:
+  alias: "Visitor Announcement"
+  description: "Announce when someone is at the door"
+  trigger:
+    platform: state
+    entity_id: binary_sensor.front_door_motion
+    to: "on"
+  action:
+    - service: manus_ai_assistant.manus_analyze_image
+      data:
+        entity_id: camera.front_door
+        prompt: "Who is at the door? Describe the person and what they're doing."
+    - service: tts.google_say
+      data:
+        entity_id: media_player.living_room
+        message: "Someone is at the front door"
+
+# Example 11: Temperature-based automation
+automation temperature_control:
+  alias: "Smart Temperature Control"
+  description: "Adjust temperature based on conditions"
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.outdoor_temperature
+    below: 50
+  action:
+    service: manus_ai_assistant.manus_control
+    data:
+      command: "It's cold outside. Set thermostat to 72 degrees and close all blinds to retain heat"
+
+# Example 12: Humidity-based automation
+automation humidity_control:
+  alias: "Humidity Control"
+  description: "Control humidity levels"
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.living_room_humidity
+    above: 60
+  action:
+    service: manus_ai_assistant.manus_control
+    data:
+      command: "Humidity is high. Turn on the dehumidifier and open windows if weather permits"
+
+# Example 13: Automation suggestion request
+automation suggest_automation:
+  alias: "Get Automation Suggestion"
+  description: "Request AI suggestions for new automations"
+  trigger:
+    platform: webhook
+    webhook_id: suggest_automation
+  action:
+    service: manus_ai_assistant.manus_automation_suggest
+    data:
+      trigger: "{{ trigger_description }}"
+      action: "{{ action_description }}"
+
+# Example 14: Conversation-based control
+automation conversation_control:
+  alias: "Conversation-based Home Control"
+  description: "Control home through multi-turn conversations"
+  trigger:
+    platform: webhook
+    webhook_id: home_conversation
+  action:
+    service: manus_ai_assistant.manus_conversation
+    data:
+      message: "{{ user_message }}"
+
+# Example 15: Scheduled status check
+automation status_check:
+  alias: "Addon Status Check"
+  description: "Periodically check addon status"
+  trigger:
+    platform: time_pattern
+    hours: "/1"
+  action:
+    service: rest.get_template
+    data:
+      resource: "http://localhost:8123/api/status"
+      headers:
+        Authorization: "Bearer {{ states.input_text.ha_token.state }}"
+    response_variable: addon_status
