@@ -12,7 +12,7 @@
     "arm64"
   ],
   "ports": {
-    "8123/tcp": {
+    "8124/tcp": {
       "description": "Manus Addon API Server"
     }
   },
@@ -20,8 +20,8 @@
     "LOG_LEVEL": "info"
   },
   "options": {
-    "manus_api_key": "your-api-key",
-    "home_assistant_token": "your-token",
+    "manus_api_key": "",
+    "home_assistant_token": "",
     "home_assistant_url": "http://localhost:8123",
     "enable_voice_control": true,
     "enable_automations": true,
