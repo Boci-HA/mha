@@ -1,9 +1,14 @@
-ARG BUILD_FROM=ghcr.io/home-assistant/python-base:3.11
-
+ARG BUILD_FROM=ghcr.io/home-assistant/aarch64-base:latest
 FROM ${BUILD_FROM}
 
-# Install dependencies
+# Set environment variables
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
+
+# Install Python and dependencies
 RUN apk add --no-cache \
+    python3 \
+    py3-pip \
     gcc \
     musl-dev \
     libffi-dev \
@@ -15,10 +20,15 @@ RUN pip install --no-cache-dir \
     requests==2.31.0
 
 # Copy addon files
-COPY main.py /app/main.py
-COPY addon_config.json /app/addon_config.json
+COPY main.py /app/
+COPY manus_integration.py /app/
+COPY requirements.txt /app/
 
+# Install additional requirements
+RUN pip install --no-cache-dir -r /app/requirements.txt
+
+# Set working directory
 WORKDIR /app
 
 # Run the addon
-CMD [ "python3", "-u", "main.py" ]
+CMD ["python3", "main.py"]
