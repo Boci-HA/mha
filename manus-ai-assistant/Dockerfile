@@ -30,5 +30,8 @@ RUN pip install --no-cache-dir --break-system-packages -r /app/requirements.txt
 # Set working directory
 WORKDIR /app
 
+# Use the s6-overlay init system
+ENTRYPOINT ["/init"]
+
 # Run the addon
 CMD ["python3", "main.py"]
