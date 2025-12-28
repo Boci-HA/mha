@@ -1,5 +1,4 @@
-ARG BUILD_FROM=ghcr.io/home-assistant/aarch64-base:latest
-FROM ${BUILD_FROM}
+FROM alpine:latest
 
 # Set environment variables
 ENV PYTHONUNBUFFERED=1
@@ -12,7 +11,8 @@ RUN apk add --no-cache \
     gcc \
     musl-dev \
     libffi-dev \
-    openssl-dev
+    openssl-dev \
+    ca-certificates
 
 # Install Python dependencies with --break-system-packages flag
 RUN pip install --no-cache-dir --break-system-packages \
