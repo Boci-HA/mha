@@ -14,8 +14,8 @@ RUN apk add --no-cache \
     libffi-dev \
     openssl-dev
 
-# Install Python dependencies
-RUN pip install --no-cache-dir \
+# Install Python dependencies with --break-system-packages flag
+RUN pip install --no-cache-dir --break-system-packages \
     aiohttp==3.9.1 \
     requests==2.31.0
 
@@ -25,7 +25,7 @@ COPY manus_integration.py /app/
 COPY requirements.txt /app/
 
 # Install additional requirements
-RUN pip install --no-cache-dir -r /app/requirements.txt
+RUN pip install --no-cache-dir --break-system-packages -r /app/requirements.txt
 
 # Set working directory
 WORKDIR /app
