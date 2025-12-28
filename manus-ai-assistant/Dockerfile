@@ -20,18 +20,12 @@ RUN pip install --no-cache-dir --break-system-packages \
     requests==2.31.0
 
 # Copy addon files
-COPY main.py /app/
-COPY manus_integration.py /app/
-COPY requirements.txt /app/
+COPY main.py /
+COPY manus_integration.py /
+COPY requirements.txt /
 
 # Install additional requirements
-RUN pip install --no-cache-dir --break-system-packages -r /app/requirements.txt
+RUN pip install --no-cache-dir --break-system-packages -r /requirements.txt
 
-# Set working directory
-WORKDIR /app
-
-# Use the s6-overlay init system
-ENTRYPOINT ["/init"]
-
-# Run the addon
-CMD ["python3", "main.py"]
+# Run the addon directly
+CMD ["python3", "/main.py"]
