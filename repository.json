@@ -7,7 +7,7 @@
       "name": "Manus AI Assistant",
       "description": "AI-powered Home Assistant control using Manus - Enable natural language control of your smart home",
       "url": "https://github.com/Boci-HA/mha/tree/main/manus-ai-assistant",
-      "version": "1.0.0",
+      "version": "0.0.1",
       "slug": "manus-ai-assistant",
       "arch": ["amd64", "armv7", "arm64"]
     }
